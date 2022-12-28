@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "339482593695",
+    "project_id": "chatti-e09fb",
+    "storage_bucket": "chatti-e09fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339482593695:android:d9278033c2e8ed7044d5aa",
+        "android_client_info": {
+          "package_name": "com.example.firebase_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339482593695-6l06o5u0ubhh93g3sjeihtmbc4uh7dbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8_nCgV6ejuTNmEefJxdhJUwOkneKr6Vs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "339482593695-6l06o5u0ubhh93g3sjeihtmbc4uh7dbr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

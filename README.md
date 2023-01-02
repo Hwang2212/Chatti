@@ -1,6 +1,9 @@
+# Flutter Mvvm Starter Architecture App with Starter Branch
+
 # firebase_chat
 
 A new Flutter project.
+
 
 ## Getting Started
 

@@ -36,8 +36,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  flutter_bloc: ^8.1.1
-  equatable: ^2.0.5
   smooth_page_indicator: ^1.0.0+2
   easy_localization: ^3.0.1
   shared_preferences: ^2.0.15
@@ -53,6 +51,8 @@ dependencies:
   firebase_core: ^2.4.0
   get_it: ^7.2.0
   build_runner: ^2.3.3
+  go_router: ^6.0.0
+  provider: ^6.0.5
 
 
 dev_dependencies:
@@ -101,10 +101,10 @@ flutter:
   fonts:
     - family: Tinos
       fonts:
-        - asset: assets/fonts/Tinos-Bold.otf
-        - asset: assets/fonts/Tinos-BoldItalic.otf
-        - asset: assets/fonts/Tinos-Italic.otf
-        - asset: assets/fonts/Tinos-Regular.otf
+        - asset: assets/fonts/Tinos-Bold.ttf
+        - asset: assets/fonts/Tinos-BoldItalic.ttf
+        - asset: assets/fonts/Tinos-Italic.ttf
+        - asset: assets/fonts/Tinos-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'router_config.dart';
+
 class MyApp extends StatefulWidget {
   MyApp._internal();
   int appState = 0;
@@ -14,8 +16,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      initialRoute: "/",
+    return MaterialApp.router(
+      routerConfig: router,
     );
   }
 }

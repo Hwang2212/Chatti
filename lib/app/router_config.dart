@@ -1,6 +1,7 @@
 import 'package:firebase_chat/view/splash/splash_view.dart';
 import 'package:go_router/go_router.dart';
 
+/// Add Routes Here
 final GoRouter router = GoRouter(routes: [
   GoRoute(
     path: SplashView.routeName,

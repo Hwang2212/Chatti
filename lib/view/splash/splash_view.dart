@@ -1,5 +1,5 @@
 import 'package:firebase_chat/view/base_view.dart';
-import 'package:firebase_chat/view/splash/splash_view_model.dart';
+import 'package:firebase_chat/viewmodel/src/splash_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatelessWidget {
@@ -9,8 +9,7 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView(
-      onModelReady: (_) => SplashViewModel(),
+    return BaseView<SplashViewModel>(
       builder: (context, model, child) {
         return Scaffold(
           body: Stack(children: [

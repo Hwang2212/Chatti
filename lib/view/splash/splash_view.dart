@@ -8,6 +8,8 @@ import 'package:firebase_chat/view/login/login_view.dart';
 import 'package:firebase_chat/view/onboarding/onboarding_view.dart';
 import 'package:firebase_chat/view/widgets/global_widgets.dart';
 import 'package:firebase_chat/viewmodel/src/splash_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -37,6 +39,8 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    ScreenUtils.setScreenSize(size);
     Size size = MediaQuery.of(context).size;
     ScreenUtils.setScreenSize(size);
     return BaseView<SplashViewModel>(

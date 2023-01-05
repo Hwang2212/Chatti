@@ -14,7 +14,7 @@ locator.registerLazySingleton(() => SharedPreferencesService());
 // ViewModels
   locator.registerFactory(() => LoginViewModel());
   locator.registerFactory(() => SplashViewModel());
-  locator.registerFactory(() => OnboardingViewModel());
+  locator.registerFactory(() => OnBoardingViewModel());
 
 // Providers
   locator.registerFactory(() => AuthProvider());

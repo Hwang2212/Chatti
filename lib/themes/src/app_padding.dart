@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class AppPadding {
   static const double p5 = 5;
   static const double p8 = 8;
@@ -25,4 +27,7 @@ class AppPadding {
   static const double p200 = 200;
   static const double p300 = 300;
   static const double p400 = 400;
+
+  static const EdgeInsetsGeometry contentPadding =
+      EdgeInsets.symmetric(horizontal: p20, vertical: p15);
 }

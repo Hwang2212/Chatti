@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 class AppFonts {
-  static const String fontFamily = "Gotham";
+  static const String fontFamily = "Tinos";
   // static const String suezOne = "SuezOne";
 }
 

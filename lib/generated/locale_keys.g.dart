@@ -2,5 +2,8 @@
 
 abstract class  LocaleKeys {
   static const getStarted = 'getStarted';
+  static const chatti = 'chatti';
+  static const chattiIsAnApp = 'chattiIsAnApp';
+  static const sendPhotos = 'sendPhotos';
 
 }

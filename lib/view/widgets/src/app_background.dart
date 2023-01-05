@@ -1,4 +1,4 @@
-import 'package:firebase_chat/view/themes/src/app_colors.dart';
+import 'package:firebase_chat/view/themes/themes.dart';
 import 'package:flutter/material.dart';
 
 class AppBackground extends StatelessWidget {
@@ -13,7 +13,7 @@ class AppBackground extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               stops: [0, 1.5],
-              colors: [AppColors.white, AppColors.lightBlue])),
+              colors: [AppColors.white, AppColors.aquaBlue])),
     );
   }
 }

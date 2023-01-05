@@ -1,5 +1,5 @@
+import 'package:firebase_chat/view/themes/themes.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_chat/themes/themes.dart';
 
 class AppOutlineButton extends StatelessWidget {
   final Color? backgroundColor;

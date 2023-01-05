@@ -1,11 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_chat/generated/locale_keys.g.dart';
-import 'package:firebase_chat/themes/src/app_fonts.dart';
-import 'package:firebase_chat/themes/src/app_padding.dart';
-import 'package:firebase_chat/themes/src/textstyle_manager.dart';
+
 import 'package:firebase_chat/utils/utils.dart';
 import 'package:firebase_chat/view/base_view.dart';
 import 'package:firebase_chat/view/login/login_view.dart';
+import 'package:firebase_chat/view/themes/themes.dart';
 import 'package:firebase_chat/view/widgets/global_widgets.dart';
 
 import 'package:flutter/material.dart';

@@ -23,6 +23,9 @@ class OnboardingView extends StatefulWidget {
 }
 
 class _OnboardingViewState extends State<OnboardingView> {
+  final introScreenController = PageController();
+  bool isLastPage = false;
+
   @override
   Widget build(BuildContext context) {
     return BaseView<OnboardingViewModel>(
@@ -30,7 +33,7 @@ class _OnboardingViewState extends State<OnboardingView> {
         return Scaffold(
           body: Stack(children: [
             const BackgroundWidget(),
-            buildMainContent(),
+            Positioned.fill(top: AppPadding.p20, child: buildMainContent()),
           ]),
         );
       },
@@ -41,27 +44,48 @@ class _OnboardingViewState extends State<OnboardingView> {
     return Padding(
       padding: AppPadding.contentPadding,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [buildPageView()],
       ),
     );
   }
 
+  List<String> introAssets = [
+    AppAssets.onboardingString1,
+    AppAssets.onboardingString2,
+    AppAssets.onboardingString3,
+  ];
   Widget buildPageView() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                LocaleKeys.chattiIsAnApp.tr(),
-                textAlign: TextAlign.center,
-                style: getLightStyle(fontSize: FontSize.s24),
-              )
-            ]),
-      ),
-    );
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "Chatti!",
+            // textAlign: TextAlign.center,
+            style: getBoldStyle(fontSize: FontSize.s40),
+          ),
+          SizedBox(
+            height: ScreenUtils.screenHeight * 0.05,
+          ),
+          SizedBox(
+            height: ScreenUtils.screenHeight * 0.4,
+            width: ScreenUtils.screenWidth * 0.8,
+            child: PageView(
+              controller: introScreenController,
+              children: [
+                ...introAssets.map((e) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      e,
+                      fit: BoxFit.fill,
+                    ),
+                  );
+                }).toList(),
+              ],
+            ),
+          )
+        ]);
   }
 }

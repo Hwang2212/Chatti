@@ -1,9 +1,7 @@
-
 import 'package:firebase_chat/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../themes/themes.dart';
-
 
 class BackgroundWidget extends StatefulWidget {
   const BackgroundWidget({super.key});
@@ -18,7 +16,7 @@ class _BackgroundWidgetState extends State<BackgroundWidget> {
     return Container(
       height: ScreenUtils.screenHeight,
       width: ScreenUtils.screenWidth,
-      decoration:  BoxDecoration(
+      decoration: const BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,

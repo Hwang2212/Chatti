@@ -8,6 +8,8 @@ class AuthProvider extends BaseProvider {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   // AuthProvider({
   //   required this.googleSignIn,
@@ -18,4 +20,19 @@ class AuthProvider extends BaseProvider {
   FirebaseAuthStatus get _firebaseAuthStatus =>
       FirebaseAuthStatus.uninitialized;
   FirebaseAuthStatus get firebaseAuthStatus => _firebaseAuthStatus;
+
+  Future<void> handleSignIn() async {
+    _isLoading = true;
+    notifyListeners();
+
+    GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    if (googleUser != null) {
+      GoogleSignInAuthentication? googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+
+      User? firebaseUser =
+          (await firebaseAuth.signInWithCredential(credential)).user;
+    } else {}
+  }
 }

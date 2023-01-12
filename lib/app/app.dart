@@ -1,3 +1,4 @@
+import 'package:firebase_chat/view/themes/src/theme_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'router_config.dart';
@@ -17,6 +18,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: AppTheme.themeData(),
       routerConfig: router,
     );
   }

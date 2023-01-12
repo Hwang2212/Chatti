@@ -91,13 +91,13 @@ class AppElevatedButton extends StatelessWidget {
       data: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
               // shadowColor: shadowColor ?? Colors.transparent,
-              backgroundColor: backgroundColor ?? colorScheme.primaryContainer,
+              backgroundColor: backgroundColor ?? AppColors.white,
               shape: shape ??
                   RoundedRectangleBorder(
                       side: side ?? const BorderSide(color: Colors.transparent),
                       borderRadius: borderRadius ?? BorderRadius.circular(10)),
               fixedSize: fixedSize ?? const Size(AppSize.s110, AppSize.s40),
-              foregroundColor: textColor,
+              foregroundColor: textColor ?? AppColors.black,
               elevation: elevation,
               padding: padding)),
       child: ElevatedButton(
@@ -143,7 +143,7 @@ class _AppElevatedButtonWithTextChild extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text,
         textAlign: textAlign,
-        style: getMediumStyle(fontSize: 13, color: textColor!));
+        style: getBoldStyle(fontSize: 14, color: textColor!));
   }
 }
 
@@ -183,11 +183,9 @@ class _AppElevatedButtonWithIconChild extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        Text(
-          text,
-          style:
-              getBoldStyle(fontSize: 13.0, color: textColor ?? AppColors.white),
-        ),
+        Text(text,
+            style: getBoldStyle(
+                fontSize: 13.0, color: textColor ?? AppColors.black))
       ],
     );
   }

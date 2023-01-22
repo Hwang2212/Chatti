@@ -27,6 +27,7 @@ void main() async {
           ChangeNotifierProvider(create: (context) => AppViewModel()),
           ChangeNotifierProvider(create: (context) => SplashViewModel()),
           ChangeNotifierProvider(create: (context) => LoginViewModel()),
+          ChangeNotifierProvider(create: (context) => HomeViewModel()),
         ], child: MyApp()),
   ));
 }

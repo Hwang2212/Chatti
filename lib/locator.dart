@@ -9,9 +9,11 @@ GetIt locator = GetIt.instance;
 void setupLocator() {
   // Services
   locator.registerLazySingleton(() => SharedPreferencesService());
+  locator.registerLazySingleton(() => SnackBarService());
 
 // ViewModels
   locator.registerFactory(() => LoginViewModel());
+  locator.registerFactory(() => HomeViewModel());
   locator.registerFactory(() => SplashViewModel());
   locator.registerFactory(() => OnboardingViewModel());
 

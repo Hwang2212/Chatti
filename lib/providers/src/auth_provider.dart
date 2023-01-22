@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_chat/providers/base_provider.dart';
+import 'package:firebase_chat/utils/constants/constants.dart';
 import 'package:firebase_chat/utils/enums/src/firebaseauth_enums.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,11 +20,10 @@ class AuthProvider extends BaseProvider {
   //   required this.firebaseFirestore,
   // });
 
-  FirebaseAuthStatus get _firebaseAuthStatus =>
-      FirebaseAuthStatus.uninitialized;
+  FirebaseAuthStatus _firebaseAuthStatus = FirebaseAuthStatus.uninitialized;
   FirebaseAuthStatus get firebaseAuthStatus => _firebaseAuthStatus;
 
-  Future<void> handleSignIn() async {
+  Future<FirebaseAuthStatus> handleSignIn() async {
     _isLoading = true;
     notifyListeners();
 
@@ -33,6 +35,31 @@ class AuthProvider extends BaseProvider {
 
       User? firebaseUser =
           (await firebaseAuth.signInWithCredential(credential)).user;
-    } else {}
+      log(firebaseUser.toString());
+      if (firebaseUser != null) {
+        final QuerySnapshot result = await firebaseFirestore
+            .collection(FirestoreConstants.pathUserCollection)
+            .where(FirestoreConstants.id, isEqualTo: firebaseUser.uid)
+            .get();
+        final List<DocumentSnapshot> document = result.docs;
+        if (document.isEmpty) {
+          firebaseFirestore
+              .collection(FirestoreConstants.pathUserCollection)
+              .doc(firebaseUser.uid)
+              .set({
+            'nickname': firebaseUser.displayName,
+            'photoUrl': firebaseUser.photoURL,
+            'id': firebaseUser.uid
+          });
+        }
+        _firebaseAuthStatus = FirebaseAuthStatus.authenticated;
+      } else {
+        _firebaseAuthStatus = FirebaseAuthStatus.authenticateError;
+      }
+    } else {
+      _firebaseAuthStatus = FirebaseAuthStatus.authenticateError;
+    }
+    notifyListeners();
+    return _firebaseAuthStatus;
   }
 }

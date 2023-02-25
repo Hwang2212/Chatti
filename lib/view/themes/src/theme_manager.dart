@@ -6,7 +6,7 @@ class AppTheme {
   static ThemeData themeData() {
     return ThemeData(
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.orange,
+        backgroundColor: AppColors.darkBlue,
         elevation: 0,
         iconTheme: IconThemeData(color: AppColors.white),
       ),

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_chat/generated/locale_keys.g.dart';
+import 'package:firebase_chat/main.dart';
 import 'package:firebase_chat/utils/utils.dart';
 import 'package:firebase_chat/view/base_view.dart';
 import 'package:firebase_chat/view/themes/themes.dart';
@@ -28,6 +29,7 @@ class _HomeViewState extends State<HomeView> {
     return BaseView<HomeViewModel>(
       builder: (context, viewModel, child) {
         return Scaffold(
+          appBar: mainAppBar(),
           body: Stack(children: [
             const BackgroundWidget(),
             Positioned.fill(
@@ -38,117 +40,85 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget buildMainContent(HomeViewModel viewModel) {
-    return Padding(
-      padding: AppPadding.contentPadding,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildHeader(),
-
-          buildTextForms(viewModel),
-          // buildPageView(),
-          // buildDescriptionCard(),
-          // pageIndicator(),
-          // buildNextandBackButton(),
-          const SizedBox(
-            height: AppSize.s50,
-          ),
-          buildSignInButton(viewModel),
-          const SizedBox(
-            height: AppSize.s20,
-          ),
-          Center(
-              child: Text(
-            "OR",
-            style: getExtraBoldStyle(
-                fontSize: FontSize.s20, color: AppColors.greYest),
-          )),
-          const SizedBox(
-            height: AppSize.s20,
-          ),
-          // buildGoogleButton(viewModel)
-        ],
-      ),
+  AppBar mainAppBar() {
+    return AppBar(
+      title: const Text("Chatti!"),
     );
   }
 
-  Widget buildHeader() {
+  Widget buildMainContent(HomeViewModel viewModel) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Login",
-          style: getExtraBoldStyle(fontSize: FontSize.s40),
-        ),
-        Text("Use your Google to Sign In!",
-            style:
-                getLightStyle(fontSize: FontSize.s16, color: AppColors.greYest))
+        buildChatList()
+        // const SizedBox(
+        //   height: AppSize.s20,
+        // ),
       ],
     );
   }
 
-  Widget buildTextForms(HomeViewModel viewModel) {
-    return Padding(
-      padding: const EdgeInsets.only(top: AppPadding.p100),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppTextFormField(
-            validator: FormValidators.validatePhoneNumber,
-            onChanged: viewModel.onChanged,
-            textInputAction: TextInputAction.next,
-            isNumber: true,
-            textEditingController: _emailTEC,
-            labelText: "Email",
-          ),
-          const SizedBox(
-            height: AppSize.s20,
-          ),
-          AppTextFormField(
-            validator: FormValidators.validateEmail,
-            onChanged: viewModel.onChanged,
-            textInputAction: TextInputAction.done,
-            textEditingController: _passwordTEC,
-            labelText: "Password",
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildSignInButton(HomeViewModel viewModel) {
+  Widget buildChatList() {
     return SizedBox(
-      height: AppSize.s40,
       width: double.infinity,
-      child: AppElevatedButton.text(
-        onPressed: () {},
-        text: "Sign In",
-        textColor: AppColors.black,
-      ),
+      height: ScreenUtils.idealScreenHeight,
+      child: ListView.builder(
+          shrinkWrap: true,
+          padding: AppPadding.contentPadding,
+          itemCount: 20,
+          itemBuilder: ((context, index) {
+            return Card(
+              color: AppColors.white.withOpacity(0.8),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: AppPadding.p15, horizontal: AppPadding.p10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const CircleAvatar(
+                      child: Icon(Icons.people),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: AppPadding.p40),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "User $index",
+                            style: getExtraBoldStyle(fontSize: FontSize.s22),
+                          ),
+                          const Text(
+                            "Messages here",
+                            style: TextStyle(
+                                fontSize: FontSize.s12,
+                                color: AppColors.greYer),
+                          )
+                        ],
+                      ),
+                    ),
+                    const Padding(
+                        padding: EdgeInsets.only(left: AppPadding.p60),
+                        child: Text(
+                          "20/12/23",
+                          style: TextStyle(
+                              fontSize: FontSize.s12, color: AppColors.greYer),
+                        ))
+                  ],
+                ),
+              ),
+            );
+          })),
     );
   }
+}
 
-  // Widget buildGoogleButton(HomeViewModel viewModel) {
-  //   return SizedBox(
-  //     height: AppSize.s40,
-  //     width: double.infinity,
-  //     child: AppElevatedButton.icon(
-  //       onPressed: () {
-  //         viewModel.onTapSignIn(context);
-  //       },
-  //       text: "Google Sign In",
-  //       textColor: AppColors.black,
-  //       icon: CircleAvatar(
-  //           backgroundColor: AppColors.white,
-  //           child: Image.asset(
-  //             AppAssets.googleIcon,
-  //             height: AppSize.s30,
-  //             width: AppSize.s30,
-  //             fit: BoxFit.contain,
-  //           )),
-  //     ),
-  //   );
-  // }
+class HomeScreenChatsModel {
+  final String userName;
+  final String lastMessage;
+  final DateTime timeUpdated;
+
+  HomeScreenChatsModel(this.userName, this.lastMessage, this.timeUpdated);
 }

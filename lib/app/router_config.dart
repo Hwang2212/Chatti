@@ -1,3 +1,4 @@
+import 'package:firebase_chat/view/home/home_view.dart';
 import 'package:firebase_chat/view/views.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,5 +18,10 @@ final GoRouter router = GoRouter(routes: [
     name: LoginView.goName,
     path: LoginView.routeName,
     builder: (context, state) => const LoginView(),
+  ),
+  GoRoute(
+    name: HomeView.goName,
+    path: HomeView.routeName,
+    builder: (context, state) => const HomeView(),
   ),
 ]);

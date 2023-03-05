@@ -18,9 +18,7 @@ class LoginViewModel extends BaseViewModel {
     _isValidated = _signUpFormKey.currentState?.validate() ?? false;
   }
 
-
-
-  void onTapSignIn(BuildContext context) async {
+  Future<void> onTapSignIn(BuildContext context) async {
     FirebaseAuthStatus status = await locator<AuthProvider>().handleSignIn();
     _finalStatus = status;
     notifyListeners();

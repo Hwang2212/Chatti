@@ -141,8 +141,8 @@ class _LoginViewState extends State<LoginView> {
       height: AppSize.s40,
       width: double.infinity,
       child: AppElevatedButton.icon(
-        onPressed: () {
-          viewModel.onTapSignIn(context);
+        onPressed: ()async {
+          await viewModel.onTapSignIn(context);
           if (viewModel.finalStatus == FirebaseAuthStatus.authenticated) {
             context.go(HomeView.routeName);
           } else {

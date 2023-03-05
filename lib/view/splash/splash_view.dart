@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_chat/generated/locale_keys.g.dart';
+import 'package:firebase_chat/locator.dart';
 import 'package:firebase_chat/utils/utils.dart';
 import 'package:firebase_chat/view/base_view.dart';
+import 'package:firebase_chat/view/home/home_view.dart';
 
 import 'package:firebase_chat/view/onboarding/onboarding_view.dart';
 import 'package:firebase_chat/view/themes/themes.dart';
@@ -10,6 +12,9 @@ import 'package:firebase_chat/viewmodel/src/splash_viewmodel.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/providers.dart';
 
 class SplashView extends StatefulWidget {
   static const goName = 'splash';
@@ -27,12 +32,17 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(const Duration(seconds: 3), pushToNextScreen);
+      checkIsLoggedIn();
     });
   }
 
-  void pushToNextScreen() {
-    context.go(OnboardingView.routeName);
+  void checkIsLoggedIn() async {
+    bool isLoggedIn = await locator<AuthProvider>().isLoggedIn();
+    if (isLoggedIn) {
+      context.go(HomeView.routeName);
+    } else {
+      context.go(OnboardingView.routeName);
+    }
   }
 
   @override

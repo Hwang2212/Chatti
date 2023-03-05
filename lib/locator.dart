@@ -20,3 +20,4 @@ void setupLocator() {
 // Providers
   locator.registerFactory(() => AuthProvider());
 }
+

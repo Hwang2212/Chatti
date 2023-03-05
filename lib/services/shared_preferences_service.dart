@@ -13,6 +13,15 @@ class SharedPreferencesService {
     return _instance!;
   }
 
+  static Future<bool> setString(String key, String value) async {
+    bool success = await _sharedPreferences!.setString(key, value);
+    return success;
+  }
+
+  static String? getString(String key)  {
+    String? success = _sharedPreferences!.getString(key);
+    return success;
+  }
   // // Key-pair Values Getter and Setter
   // bool getIsFirstTime() {
   //   return _sharedPreferences!.getBool(Constants.isFirstTime) ?? true;

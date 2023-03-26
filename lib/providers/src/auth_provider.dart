@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_chat/locator.dart';
 import 'package:firebase_chat/providers/base_provider.dart';
+import 'package:firebase_chat/services/firebase/firestore.dart';
 import 'package:firebase_chat/services/shared_preferences_service.dart';
 import 'package:firebase_chat/utils/constants/constants.dart';
 import 'package:firebase_chat/utils/enums/src/firebaseauth_enums.dart';
@@ -12,14 +13,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AuthProvider extends BaseProvider {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  final FirestoreService firestoreService;
+  // final firestoreService firestoreService = firestoreService.instance;
+  AuthProvider({required this.firestoreService});
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
   // AuthProvider({
   //   required this.googleSignIn,
   //   required this.firebaseAuth,
-  //   required this.firebaseFirestore,
+  //   required this.firestoreService,
   // });
 
   FirebaseAuthStatus _firebaseAuthStatus = FirebaseAuthStatus.uninitialized;
@@ -37,22 +41,18 @@ class AuthProvider extends BaseProvider {
 
       User? firebaseUser =
           (await firebaseAuth.signInWithCredential(credential)).user;
+
       log(firebaseUser.toString());
       if (firebaseUser != null) {
-        final QuerySnapshot result = await firebaseFirestore
-            .collection(FirestoreConstants.pathUserCollection)
-            .where(FirestoreConstants.id, isEqualTo: firebaseUser.uid)
-            .get();
+        locator<SharedPreferencesService>().setUserUid(firebaseUser.uid);
+        locator<SharedPreferencesService>()
+            .setUserName(firebaseUser.displayName ?? "");
+
+        final QuerySnapshot result =
+            await firestoreService.getUserDetails(firebaseUser.uid);
         final List<DocumentSnapshot> document = result.docs;
         if (document.isEmpty) {
-          firebaseFirestore
-              .collection(FirestoreConstants.pathUserCollection)
-              .doc(firebaseUser.uid)
-              .set({
-            'nickname': firebaseUser.displayName,
-            'photoUrl': firebaseUser.photoURL,
-            'id': firebaseUser.uid
-          });
+          firestoreService.createUser(firebaseUser);
         }
         _firebaseAuthStatus = FirebaseAuthStatus.authenticated;
       } else {
@@ -76,6 +76,8 @@ class AuthProvider extends BaseProvider {
       // log(firebaseUser.toString());
       if (firebaseUser != null) {
         locator<SharedPreferencesService>().setUserUid(firebaseUser.uid);
+        locator<SharedPreferencesService>()
+            .setUserName(firebaseUser.displayName ?? "");
         _firebaseAuthStatus = FirebaseAuthStatus.authenticated;
       } else {
         _firebaseAuthStatus = FirebaseAuthStatus.authenticateError;

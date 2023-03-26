@@ -18,6 +18,19 @@ class SharedPreferencesService {
     return _sharedPreferences!.setString(SharedPrefConstants.userUid, userUid);
   }
 
+  Future<bool> setUserName(String username) {
+    return _sharedPreferences!
+        .setString(SharedPrefConstants.username, username);
+  }
+
+  String? getUsername() {
+    return _sharedPreferences!.getString(SharedPrefConstants.username);
+  }
+
+  String? getUserUid() {
+    return _sharedPreferences!.getString(SharedPrefConstants.userUid);
+  }
+
   // // Key-pair Values Getter and Setter
   // bool getIsFirstTime() {
   //   return _sharedPreferences!.getBool(Constants.isFirstTime) ?? true;

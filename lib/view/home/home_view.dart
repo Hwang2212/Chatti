@@ -1,13 +1,18 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_chat/generated/locale_keys.g.dart';
 import 'package:firebase_chat/main.dart';
+import 'package:firebase_chat/services/shared_preferences_service.dart';
 import 'package:firebase_chat/utils/utils.dart';
 import 'package:firebase_chat/view/base_view.dart';
+import 'package:firebase_chat/view/home/widgets/chatroom_tiles.dart';
 import 'package:firebase_chat/view/themes/themes.dart';
 import 'package:firebase_chat/view/widgets/global_widgets.dart';
 import 'package:firebase_chat/viewmodel/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   static const goName = 'home-view';
@@ -22,6 +27,11 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final TextEditingController _passwordTEC = TextEditingController();
   final TextEditingController _emailTEC = TextEditingController();
+  @override
+  void initState() {
+    context.read<HomeViewModel>().getChatroomList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +60,7 @@ class _HomeViewState extends State<HomeView> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildChatList()
+        buildChatList(viewModel)
         // const SizedBox(
         //   height: AppSize.s20,
         // ),
@@ -58,66 +68,40 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget buildChatList() {
-    return SizedBox(
-      width: double.infinity,
-      height: ScreenUtils.idealScreenHeight,
-      child: ListView.builder(
-          shrinkWrap: true,
-          padding: AppPadding.contentPadding,
-          itemCount: 20,
-          itemBuilder: ((context, index) {
-            return Card(
-              color: AppColors.white.withOpacity(0.8),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: AppPadding.p15, horizontal: AppPadding.p10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const CircleAvatar(
-                      child: Icon(Icons.people),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: AppPadding.p40),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "User $index",
-                            style: getExtraBoldStyle(fontSize: FontSize.s22),
-                          ),
-                          const Text(
-                            "Messages here",
-                            style: TextStyle(
-                                fontSize: FontSize.s12,
-                                color: AppColors.greYer),
-                          )
-                        ],
-                      ),
-                    ),
-                    const Padding(
-                        padding: EdgeInsets.only(left: AppPadding.p60),
-                        child: Text(
-                          "20/12/23",
-                          style: TextStyle(
-                              fontSize: FontSize.s12, color: AppColors.greYer),
-                        ))
-                  ],
-                ),
-              ),
-            );
-          })),
-    );
+  Widget buildChatList(HomeViewModel viewModel) {
+    return StreamBuilder(
+        stream: viewModel.chatroomStream,
+        builder: (context, snapshot) {
+          log("DATA ${snapshot.data!.docs.length}");
+          return snapshot.hasData
+              ? SizedBox(
+                  width: double.infinity,
+                  height: ScreenUtils.idealScreenHeight,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: AppPadding.contentPadding,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: ((context, index) {
+                        Map<String, dynamic> data = snapshot.data!.docs[index]
+                            .data() as Map<String, dynamic>;
+
+                        String name;
+                        if (data['users'].first == viewModel.username) {
+                          name = data['users'].last;
+                        } else {
+                          name = data['users'].first;
+                        }
+                        return ChatRoomTile(
+                          chatRoomTileArgs: ChatRoomTileArgs(
+                              username: name,
+                              lastMessage: data['last_message'],
+                              timeUpdated: data['timeUpdated'].toString()),
+                        );
+                      })),
+                )
+              : const Center(
+                  child: Text("No Chats"),
+                );
+        });
   }
-}
-
-class HomeScreenChatsModel {
-  final String userName;
-  final String lastMessage;
-  final DateTime timeUpdated;
-
-  HomeScreenChatsModel(this.userName, this.lastMessage, this.timeUpdated);
 }

@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_chat/locator.dart';
 import 'package:firebase_chat/providers/base_provider.dart';
+import 'package:firebase_chat/services/shared_preferences_service.dart';
 import 'package:firebase_chat/utils/constants/constants.dart';
 import 'package:firebase_chat/utils/enums/src/firebaseauth_enums.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -23,7 +25,7 @@ class AuthProvider extends BaseProvider {
   FirebaseAuthStatus _firebaseAuthStatus = FirebaseAuthStatus.uninitialized;
   FirebaseAuthStatus get firebaseAuthStatus => _firebaseAuthStatus;
 
-  Future<FirebaseAuthStatus> handleSignIn() async {
+  Future<FirebaseAuthStatus> googleLogIn() async {
     _isLoading = true;
     notifyListeners();
 
@@ -59,6 +61,27 @@ class AuthProvider extends BaseProvider {
     } else {
       _firebaseAuthStatus = FirebaseAuthStatus.authenticateError;
     }
+    notifyListeners();
+    return _firebaseAuthStatus;
+  }
+
+  Future<FirebaseAuthStatus> emailLogIn(String email, String password) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      User? firebaseUser = (await firebaseAuth.signInWithEmailAndPassword(
+              email: email, password: password))
+          .user;
+      // log(firebaseUser.toString());
+      if (firebaseUser != null) {
+        locator<SharedPreferencesService>().setUserUid(firebaseUser.uid);
+        _firebaseAuthStatus = FirebaseAuthStatus.authenticated;
+      } else {
+        _firebaseAuthStatus = FirebaseAuthStatus.authenticateError;
+      }
+    } catch (e) {}
+
     notifyListeners();
     return _firebaseAuthStatus;
   }

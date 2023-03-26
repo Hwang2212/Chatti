@@ -21,7 +21,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final TextEditingController _passwordTEC = TextEditingController();
-
   final TextEditingController _emailTEC = TextEditingController();
 
   @override

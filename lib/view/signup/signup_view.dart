@@ -13,24 +13,26 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginView extends StatefulWidget {
+import '../../viewmodel/src/signup_viewmodel.dart';
+
+class SignUpView extends StatefulWidget {
   static const goName = 'login-view';
   static const routeName = '/login-view';
 
-  const LoginView({super.key});
+  const SignUpView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<SignUpView> createState() => _SignUpViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _SignUpViewState extends State<SignUpView> {
   final TextEditingController _passwordTEC = TextEditingController();
 
   final TextEditingController _emailTEC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<LoginViewModel>(
+    return BaseView<SignUpViewModel>(
       builder: (context, viewModel, child) {
         return Scaffold(
           body: Stack(children: [
@@ -43,7 +45,7 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Widget buildMainContent(LoginViewModel viewModel) {
+  Widget buildMainContent(SignUpViewModel viewModel) {
     return Padding(
       padding: AppPadding.contentPadding,
       child: Column(
@@ -94,7 +96,7 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Widget buildTextForms(LoginViewModel viewModel) {
+  Widget buildTextForms(SignUpViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.only(top: AppPadding.p100),
       child: Column(
@@ -123,39 +125,25 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Widget buildSignInButton(LoginViewModel viewModel) {
+  Widget buildSignInButton(SignUpViewModel viewModel) {
     return SizedBox(
       height: AppSize.s40,
       width: double.infinity,
       child: AppElevatedButton.text(
-        onPressed: () async {
-          await viewModel.onTapSignInEmail(context,
-              email: _emailTEC.value.text, password: _passwordTEC.value.text);
-          if (!mounted) return;
-          if (viewModel.finalStatus == FirebaseAuthStatus.authenticated) {
-            context.go(HomeView.routeName);
-          } else {
-            locator<SnackBarService>().show(
-                context: context,
-                text: "Login Fail",
-                actionText: "Dismiss",
-                actionOnPressed: () {});
-          }
-        },
+        onPressed: () {},
         text: "Sign In",
         textColor: AppColors.black,
       ),
     );
   }
 
-  Widget buildGoogleButton(LoginViewModel viewModel) {
+  Widget buildGoogleButton(SignUpViewModel viewModel) {
     return SizedBox(
       height: AppSize.s40,
       width: double.infinity,
       child: AppElevatedButton.icon(
-        onPressed: () async {
-          await viewModel.onTapSignInGoogle(context);
-          if (!mounted) return;
+        onPressed: () {
+          viewModel.onTapSignIn(context);
           if (viewModel.finalStatus == FirebaseAuthStatus.authenticated) {
             context.go(HomeView.routeName);
           } else {

@@ -1,4 +1,3 @@
-import 'package:firebase_chat/providers/providers.dart';
 import 'package:firebase_chat/services/services.dart';
 
 import 'package:firebase_chat/viewmodel/view_model.dart';
@@ -18,5 +17,4 @@ void setupLocator() {
   locator.registerFactory(() => OnboardingViewModel());
 
 // Providers
-  locator.registerFactory(() => AuthProvider());
 }

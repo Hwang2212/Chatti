@@ -1,3 +1,4 @@
+import 'package:firebase_chat/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
@@ -11,6 +12,10 @@ class SharedPreferencesService {
         _sharedPreferences ?? await SharedPreferences.getInstance();
     _instance = SharedPreferencesService();
     return _instance!;
+  }
+
+  Future<bool> setUserUid(String userUid) {
+    return _sharedPreferences!.setString(SharedPrefConstants.userUid, userUid);
   }
 
   // // Key-pair Values Getter and Setter

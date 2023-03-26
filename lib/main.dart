@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_chat/firebase_options.dart';
 import 'package:firebase_chat/locator.dart';
+import 'package:firebase_chat/providers/providers.dart';
 import 'package:firebase_chat/services/services.dart';
 import 'package:firebase_chat/viewmodel/view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,6 +29,8 @@ void main() async {
           ChangeNotifierProvider(create: (context) => SplashViewModel()),
           ChangeNotifierProvider(create: (context) => LoginViewModel()),
           ChangeNotifierProvider(create: (context) => HomeViewModel()),
-        ], child: MyApp()),
+          ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ],
+        child: MyApp()),
   ));
 }

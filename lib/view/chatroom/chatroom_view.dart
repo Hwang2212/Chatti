@@ -4,9 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_chat/generated/locale_keys.g.dart';
 import 'package:firebase_chat/main.dart';
 import 'package:firebase_chat/services/shared_preferences_service.dart';
-import 'package:firebase_chat/core/utils/utils.dart';
 import 'package:firebase_chat/view/base_view.dart';
-import 'package:firebase_chat/view/chatroom/chatroom_view.dart';
 import 'package:firebase_chat/view/home/widgets/chatroom_tiles.dart';
 import 'package:firebase_chat/view/themes/themes.dart';
 import 'package:firebase_chat/core/widgets/global_widgets.dart';
@@ -15,28 +13,32 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class HomeView extends StatefulWidget {
-  static const goName = 'home-view';
-  static const routeName = '/home-view';
+import '../../core/utils/utils.dart';
 
-  const HomeView({super.key});
+class ChatroomView extends StatefulWidget {
+  static const goName = 'chatroom-view';
+  static const routeName = '/chatroom-view';
+  final String? chatroomId;
+
+  const ChatroomView({super.key, this.chatroomId});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<ChatroomView> createState() => _ChatroomViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
-  final TextEditingController _passwordTEC = TextEditingController();
-  final TextEditingController _emailTEC = TextEditingController();
+class _ChatroomViewState extends State<ChatroomView> {
+  final TextEditingController _messageTEC = TextEditingController();
   @override
   void initState() {
-    context.read<HomeViewModel>().getChatroomList();
+    if (widget.chatroomId != null) {
+      context.read<ChatroomViewModel>().getChats(widget.chatroomId!);
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<HomeViewModel>(
+    return BaseView<ChatroomViewModel>(
       builder: (context, viewModel, child) {
         return Scaffold(
           appBar: mainAppBar(),
@@ -56,7 +58,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget buildMainContent(HomeViewModel viewModel) {
+  Widget buildMainContent(ChatroomViewModel viewModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +71,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget buildChatList(HomeViewModel viewModel) {
+  Widget buildChatList(ChatroomViewModel viewModel) {
     return StreamBuilder(
         stream: viewModel.chatroomStream,
         builder: (context, snapshot) {
@@ -94,9 +96,6 @@ class _HomeViewState extends State<HomeView> {
                         return ChatRoomTile(
                           chatRoomTileArgs: ChatRoomTileArgs(
                               username: name,
-                              onTap: () {
-                                context.goNamed(ChatroomView.goName);
-                              },
                               lastMessage: data['last_message'],
                               timeUpdated: data['timeUpdated'].toString()),
                         );

@@ -1,4 +1,4 @@
-import 'package:firebase_chat/utils/utils.dart';
+import 'package:firebase_chat/core/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
@@ -32,13 +32,14 @@ class SharedPreferencesService {
   }
 
   // // Key-pair Values Getter and Setter
-  // bool getIsFirstTime() {
-  //   return _sharedPreferences!.getBool(Constants.isFirstTime) ?? true;
-  // }
+  bool getHasLoggedIn() {
+    return _sharedPreferences!.getBool(SharedPrefConstants.hasLoggedIn) ??
+        false;
+  }
 
-  // Future<bool> setIsNotFirstTime() async {
-  //   return _sharedPreferences!.setBool(Constants.isFirstTime, false);
-  // }
+  Future<bool> setHasLoggedIn() async {
+    return _sharedPreferences!.setBool(SharedPrefConstants.hasLoggedIn, true);
+  }
 
   // String getAccessToken() {
   //   return _sharedPreferences!.getString(Constants.accessToken) ?? "";

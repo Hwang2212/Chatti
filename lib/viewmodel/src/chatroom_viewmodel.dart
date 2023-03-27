@@ -8,20 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../base_viewmodel.dart';
 
-class HomeViewModel extends BaseViewModel {
+class ChatroomViewModel extends BaseViewModel {
   final FirestoreService firestoreService;
   final SharedPreferencesService sharedPreferencesService;
-  HomeViewModel(
+  ChatroomViewModel(
       {required this.firestoreService, required this.sharedPreferencesService});
   Stream<QuerySnapshot>? chatroomStream;
   String username = "";
 
-  void getChatroomList() async {
+  void getChats(String chatroomId) async {
     String userName = sharedPreferencesService.getUserUid() ?? "";
     username = userName;
     if (userName != "") {
-      Stream<QuerySnapshot> chats =
-          await firestoreService.getUserChats(userName);
+      Stream<QuerySnapshot> chats = await firestoreService.getChats(chatroomId);
       chatroomStream = chats;
     }
     notifyListeners();

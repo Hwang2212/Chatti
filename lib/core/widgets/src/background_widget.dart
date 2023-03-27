@@ -1,7 +1,7 @@
-import 'package:firebase_chat/utils/utils.dart';
+import 'package:firebase_chat/core/utils/utils.dart';
 import 'package:flutter/material.dart';
 
-import '../../themes/themes.dart';
+import '../../../view/themes/themes.dart';
 
 class BackgroundWidget extends StatefulWidget {
   const BackgroundWidget({super.key});

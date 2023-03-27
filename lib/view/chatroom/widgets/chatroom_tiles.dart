@@ -6,10 +6,9 @@ class ChatRoomTileArgs {
   final String username;
   final String? lastMessage;
   final String? timeUpdated;
-  final VoidCallback? onTap;
 
   ChatRoomTileArgs(
-      {this.onTap, required this.username, this.lastMessage, this.timeUpdated});
+      {required this.username, this.lastMessage, this.timeUpdated});
 }
 
 class ChatRoomTile extends StatelessWidget {
@@ -19,7 +18,6 @@ class ChatRoomTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: chatRoomTileArgs.onTap ?? () {},
       child: Card(
         color: AppColors.white.withOpacity(0.8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

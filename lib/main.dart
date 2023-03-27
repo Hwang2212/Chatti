@@ -9,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'app/app.dart';
+import 'core/app/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +31,10 @@ void main() async {
           ChangeNotifierProvider(create: (context) => OnboardingViewModel()),
           ChangeNotifierProvider(create: (context) => SplashViewModel()),
           ChangeNotifierProvider(create: (context) => LoginViewModel()),
+          ChangeNotifierProvider(
+              create: (context) => ChatroomViewModel(
+                  sharedPreferencesService: sharedPreferencesService,
+                  firestoreService: firestoreService)),
           ChangeNotifierProvider(
               create: (context) => HomeViewModel(
                   firestoreService: firestoreService,

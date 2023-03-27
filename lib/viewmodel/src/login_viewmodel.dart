@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_chat/locator.dart';
 import 'package:firebase_chat/providers/providers.dart';
-import 'package:firebase_chat/utils/enums/src/firebaseauth_enums.dart';
+import 'package:firebase_chat/core/utils/enums/src/firebaseauth_enums.dart';
 import 'package:firebase_chat/view/home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

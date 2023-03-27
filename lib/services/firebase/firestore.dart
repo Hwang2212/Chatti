@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_chat/utils/utils.dart';
+import 'package:firebase_chat/core/utils/utils.dart';
 
 class FirestoreService {
   // static Firestore
@@ -58,6 +58,15 @@ class FirestoreService {
     return _firestore!
         .collection(FirestoreConstants.chatroomCollection)
         .where(FirestoreConstants.usersUid, arrayContains: userUid)
+        .snapshots();
+  }
+
+  Future<Stream<QuerySnapshot>> getChats(String chatroomId) async {
+    return _firestore!
+        .collection(FirestoreConstants.chatroomCollection)
+        .doc(chatroomId)
+        .collection(FirestoreConstants.chatCollection)
+        .orderBy(FirestoreConstants.timeUpdated)
         .snapshots();
   }
 }

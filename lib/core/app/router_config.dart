@@ -1,3 +1,4 @@
+import 'package:firebase_chat/view/chatroom/chatroom_view.dart';
 import 'package:firebase_chat/view/home/home_view.dart';
 import 'package:firebase_chat/view/views.dart';
 import 'package:go_router/go_router.dart';
@@ -23,5 +24,12 @@ final GoRouter router = GoRouter(routes: [
     name: HomeView.goName,
     path: HomeView.routeName,
     builder: (context, state) => const HomeView(),
+  ),
+  GoRoute(
+    name: ChatroomView.goName,
+    path: ChatroomView.routeName,
+    builder: (context, state) => ChatroomView(
+      chatroomId: state.queryParams['chatroomId'],
+    ),
   ),
 ]);

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:firebase_chat/app/app.dart';
+import 'package:firebase_chat/core/app/app.dart';
 
 class Test extends StatelessWidget {
   const Test({super.key});

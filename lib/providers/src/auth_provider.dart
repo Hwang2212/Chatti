@@ -5,8 +5,8 @@ import 'package:firebase_chat/locator.dart';
 import 'package:firebase_chat/providers/base_provider.dart';
 import 'package:firebase_chat/services/firebase/firestore.dart';
 import 'package:firebase_chat/services/shared_preferences_service.dart';
-import 'package:firebase_chat/utils/constants/constants.dart';
-import 'package:firebase_chat/utils/enums/src/firebaseauth_enums.dart';
+import 'package:firebase_chat/core/utils/constants/constants.dart';
+import 'package:firebase_chat/core/utils/enums/src/firebaseauth_enums.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -47,6 +47,7 @@ class AuthProvider extends BaseProvider {
         locator<SharedPreferencesService>().setUserUid(firebaseUser.uid);
         locator<SharedPreferencesService>()
             .setUserName(firebaseUser.displayName ?? "");
+        locator<SharedPreferencesService>().setHasLoggedIn();
 
         final QuerySnapshot result =
             await firestoreService.getUserDetails(firebaseUser.uid);
@@ -78,6 +79,7 @@ class AuthProvider extends BaseProvider {
         locator<SharedPreferencesService>().setUserUid(firebaseUser.uid);
         locator<SharedPreferencesService>()
             .setUserName(firebaseUser.displayName ?? "");
+        locator<SharedPreferencesService>().setHasLoggedIn();
         _firebaseAuthStatus = FirebaseAuthStatus.authenticated;
       } else {
         _firebaseAuthStatus = FirebaseAuthStatus.authenticateError;

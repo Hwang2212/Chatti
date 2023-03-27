@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_chat/utils/utils.dart';
+import 'package:firebase_chat/core/utils/utils.dart';
 
 class ShowLoading extends StatelessWidget {
   final bool? noBackground;

@@ -3,3 +3,4 @@ export 'src/login_viewmodel.dart';
 export 'src/splash_viewmodel.dart';
 export 'src/onboarding_viewmodel.dart';
 export 'src/home_viewmodel.dart';
+export 'src/chatroom_viewmodel.dart';

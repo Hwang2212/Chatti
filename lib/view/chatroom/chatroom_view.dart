@@ -5,6 +5,7 @@ import 'package:firebase_chat/generated/locale_keys.g.dart';
 import 'package:firebase_chat/main.dart';
 import 'package:firebase_chat/services/shared_preferences_service.dart';
 import 'package:firebase_chat/view/base_view.dart';
+import 'package:firebase_chat/view/chatroom/widgets/add_message_field.dart';
 import 'package:firebase_chat/view/home/widgets/chatroom_tiles.dart';
 import 'package:firebase_chat/view/themes/themes.dart';
 import 'package:firebase_chat/core/widgets/global_widgets.dart';
@@ -17,7 +18,7 @@ import '../../core/utils/utils.dart';
 
 class ChatroomView extends StatefulWidget {
   static const goName = 'chatroom-view';
-  static const routeName = '/chatroom-view';
+  static const routeName = 'chatroom-view';
   final String? chatroomId;
 
   const ChatroomView({super.key, this.chatroomId});
@@ -47,6 +48,15 @@ class _ChatroomViewState extends State<ChatroomView> {
             Positioned.fill(
                 top: AppPadding.p20, child: buildMainContent(viewModel)),
           ]),
+          bottomNavigationBar: AddMessageField(
+            addMessageTEC: _messageTEC,
+            onTapButton: () {
+              viewModel.addMessage(
+                  message: _messageTEC.text,
+                  sendBy: "Andy Hwang",
+                  sendTo: "Lala");
+            },
+          ),
         );
       },
     );
@@ -55,6 +65,7 @@ class _ChatroomViewState extends State<ChatroomView> {
   AppBar mainAppBar() {
     return AppBar(
       title: const Text("Chatti!"),
+      leading: const AppBackButton(),
     );
   }
 
@@ -78,7 +89,7 @@ class _ChatroomViewState extends State<ChatroomView> {
           return snapshot.hasData
               ? SizedBox(
                   width: double.infinity,
-                  height: ScreenUtils.idealScreenHeight,
+                  // height: ScreenUtils.idealScreenHeight,
                   child: ListView.builder(
                       shrinkWrap: true,
                       padding: AppPadding.contentPadding,
@@ -88,22 +99,16 @@ class _ChatroomViewState extends State<ChatroomView> {
                             .data() as Map<String, dynamic>;
 
                         String name;
-                        if (data['users'].first == viewModel.username) {
-                          name = data['users'].last;
-                        } else {
-                          name = data['users'].first;
-                        }
-                        return ChatRoomTile(
-                          chatRoomTileArgs: ChatRoomTileArgs(
-                              username: name,
-                              lastMessage: data['last_message'],
-                              timeUpdated: data['timeUpdated'].toString()),
-                        );
+                        // if (data['users'].first == viewModel.username) {
+                        //   name = data['users'].last;
+                        // } else {
+                        //   name = data['users'].first;
+                        // }
+                        // log(data.toString());
+                        return Center(child: Text(data['from_user']));
                       })),
                 )
-              : const Center(
-                  child: Text("No Chats"),
-                );
+              : Container();
         });
   }
 }

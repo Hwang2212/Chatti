@@ -69,4 +69,16 @@ class FirestoreService {
         .orderBy(FirestoreConstants.timeUpdated)
         .snapshots();
   }
+
+  Future<void> addMessage(String chatroomId, message) async {
+    try {
+      _firestore!
+          .collection(FirestoreConstants.chatroomCollection)
+          .doc(chatroomId)
+          .collection(FirestoreConstants.chatCollection)
+          .add(message);
+    } catch (e) {
+      log("ERROR: Firestore - $e");
+    }
+  }
 }

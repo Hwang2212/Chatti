@@ -95,7 +95,10 @@ class _HomeViewState extends State<HomeView> {
                           chatRoomTileArgs: ChatRoomTileArgs(
                               username: name,
                               onTap: () {
-                                context.goNamed(ChatroomView.goName);
+                                context.goNamed(ChatroomView.goName,
+                                    queryParams: {
+                                      'chatroomId': data['chatroom_id']
+                                    });
                               },
                               lastMessage: data['last_message'],
                               timeUpdated: data['timeUpdated'].toString()),

@@ -1,17 +1,16 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+class AppBackButton extends StatelessWidget {
+  const AppBackButton({super.key});
 
-// class AppBackButton extends StatelessWidget {
-//   const AppBackButton({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return IconButton(
-//       icon: SvgPicture.asset(AppAssets.backButtonLogo),
-//       onPressed: () {
-//         Navigator.of(context).pop();
-//       },
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back_ios_rounded),
+      onPressed: () {
+        context.pop();
+      },
+    );
+  }
+}

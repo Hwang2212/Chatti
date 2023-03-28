@@ -31,14 +31,15 @@ void main() async {
           ChangeNotifierProvider(create: (context) => OnboardingViewModel()),
           ChangeNotifierProvider(create: (context) => SplashViewModel()),
           ChangeNotifierProvider(create: (context) => LoginViewModel()),
+          // ChangeNotifierProvider(
+          //     create: (context) => ChatroomViewModel(
+          //         sharedPreferencesService: sharedPreferencesService,
+          //         firestoreService: firestoreService)),
           ChangeNotifierProvider(
-              create: (context) => ChatroomViewModel(
-                  sharedPreferencesService: sharedPreferencesService,
-                  firestoreService: firestoreService)),
-          ChangeNotifierProvider(
-              create: (context) => HomeViewModel(
-                  firestoreService: firestoreService,
-                  sharedPreferencesService: sharedPreferencesService)),
+            create: (context) => HomeViewModel(
+                firestoreService: firestoreService,
+                sharedPreferencesService: sharedPreferencesService),
+          ),
           ChangeNotifierProvider(
               create: (context) =>
                   AuthProvider(firestoreService: firestoreService)),

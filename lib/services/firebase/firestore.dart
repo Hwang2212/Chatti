@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_chat/core/utils/utils.dart';
 
@@ -48,10 +49,14 @@ class FirestoreService {
 
   createUserInfo() async {}
 
-  createChatRoom(Map<String, dynamic> usersMap) {
+  createChatRoom(String chatroomId, Map<String, dynamic> chatroomMap) {
     return _firestore!
         .collection(FirestoreConstants.chatroomCollection)
-        .add(usersMap);
+        .doc(chatroomId)
+        .set(chatroomMap)
+        .catchError((error) {
+      log(error);
+    });
   }
 
   Future<Stream<QuerySnapshot>> getUserChats(String userUid) async {
@@ -67,6 +72,26 @@ class FirestoreService {
         .doc(chatroomId)
         .collection(FirestoreConstants.chatCollection)
         .orderBy(FirestoreConstants.timeUpdated)
+        .snapshots();
+  }
+
+  Future<bool> checkChatroomId(String chatroomId) async {
+    Stream<QuerySnapshot> snapshot = _firestore!
+        .collection(FirestoreConstants.chatroomCollection)
+        .where(FirestoreConstants.chatroomId, isEqualTo: chatroomId)
+        .snapshots();
+    if (snapshot.length == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  Future<Stream<QuerySnapshot>> getUsers(String currentUserId) async {
+    return _firestore!
+        .collection(FirestoreConstants.pathUserCollection)
+        .where(FirestoreConstants.id, isNotEqualTo: currentUserId)
+        // .orderBy(FirestoreConstants.username)
         .snapshots();
   }
 

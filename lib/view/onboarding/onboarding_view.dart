@@ -1,5 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_chat/generated/locale_keys.g.dart';
+import 'dart:developer';
 
 import 'package:firebase_chat/core/utils/utils.dart';
 import 'package:firebase_chat/view/base_view.dart';
@@ -102,8 +101,10 @@ class _OnboardingViewState extends State<OnboardingView> {
               controller: introScreenController,
               onPageChanged: (value) {
                 setState(() {
-                  isLastPage = value == 3;
+                  isLastPage = value == 2;
                 });
+                log(value.toString());
+
                 descriptionController.animateToPage(value,
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.easeIn);

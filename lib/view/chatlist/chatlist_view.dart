@@ -2,12 +2,12 @@ import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_chat/generated/locale_keys.g.dart';
+import 'package:firebase_chat/locator.dart';
 import 'package:firebase_chat/main.dart';
 import 'package:firebase_chat/services/shared_preferences_service.dart';
 import 'package:firebase_chat/core/utils/utils.dart';
 import 'package:firebase_chat/view/base_view.dart';
 import 'package:firebase_chat/view/chatroom/chatroom_view.dart';
-import 'package:firebase_chat/view/home/widgets/add_chatroom_button.dart';
 import 'package:firebase_chat/view/home/widgets/chatroom_tiles.dart';
 import 'package:firebase_chat/view/themes/themes.dart';
 import 'package:firebase_chat/core/widgets/global_widgets.dart';
@@ -16,28 +16,28 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class HomeView extends StatefulWidget {
-  static const goName = 'home-view';
-  static const routeName = '/home-view';
+import '../../viewmodel/src/chatlist_viewmodel.dart';
 
-  const HomeView({super.key});
+class ChatListView extends StatefulWidget {
+  static const goName = 'chatlist-view';
+  static const routeName = 'chatlist-view';
+
+  const ChatListView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<ChatListView> createState() => _ChatListViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
-  final TextEditingController _passwordTEC = TextEditingController();
-  final TextEditingController _emailTEC = TextEditingController();
+class _ChatListViewState extends State<ChatListView> {
   @override
   void initState() {
-    context.read<HomeViewModel>().getChatroomList();
+    context.read<ChatListViewModel>().getChatList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<HomeViewModel>(
+    return BaseView<ChatListViewModel>(
       builder: (context, viewModel, child) {
         return Scaffold(
           appBar: mainAppBar(),
@@ -46,7 +46,7 @@ class _HomeViewState extends State<HomeView> {
             Positioned.fill(
                 top: AppPadding.p20, child: buildMainContent(viewModel)),
           ]),
-          floatingActionButton: const AddChatroomButton(),
+          // floatingActionButton: AddC,
         );
       },
     );
@@ -54,11 +54,12 @@ class _HomeViewState extends State<HomeView> {
 
   AppBar mainAppBar() {
     return AppBar(
-      title: const Text("Chatti!"),
+      title: const Text("Users"),
+      leading: const AppBackButton(),
     );
   }
 
-  Widget buildMainContent(HomeViewModel viewModel) {
+  Widget buildMainContent(ChatListViewModel viewModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,9 +72,9 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget buildChatList(HomeViewModel viewModel) {
+  Widget buildChatList(ChatListViewModel viewModel) {
     return StreamBuilder(
-        stream: viewModel.chatroomStream,
+        stream: viewModel.chatlistStream,
         builder: (context, snapshot) {
           return snapshot.hasData
               ? SizedBox(
@@ -87,29 +88,24 @@ class _HomeViewState extends State<HomeView> {
                         Map<String, dynamic> data = snapshot.data!.docs[index]
                             .data() as Map<String, dynamic>;
 
-                        String name;
-                        if (data['users'].first == viewModel.username) {
-                          name = data['users'].last;
-                        } else {
-                          name = data['users'].first;
-                        }
                         return ChatRoomTile(
                           chatRoomTileArgs: ChatRoomTileArgs(
-                              username: name,
+                              username: data['username'],
                               onTap: () {
+                                String newChatroomId =
+                                    "${data['id']}_${locator<SharedPreferencesService>().getUserUid()}";
+
+                                log(newChatroomId);
                                 context.goNamed(ChatroomView.goName,
-                                    queryParams: {
-                                      'chatroomId': data['chatroom_id']
-                                    });
+                                    queryParams: {'chatroomId': newChatroomId});
                               },
-                              lastMessage: data['last_message'],
-                              timeUpdated: data['timeUpdated'].toString()),
+                              lastMessage: "",
+                              imageUrl: data['photoUrl'],
+                              timeUpdated: ""),
                         );
                       })),
                 )
-              : const Center(
-                  child: Text("No Chats"),
-                );
+              : const SizedBox.shrink();
         });
   }
 }

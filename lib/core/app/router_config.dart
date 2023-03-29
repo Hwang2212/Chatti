@@ -1,9 +1,11 @@
 import 'package:firebase_chat/locator.dart';
 import 'package:firebase_chat/services/firebase/firestore.dart';
 import 'package:firebase_chat/services/shared_preferences_service.dart';
+import 'package:firebase_chat/view/chatlist/chatlist_view.dart';
 import 'package:firebase_chat/view/chatroom/chatroom_view.dart';
 import 'package:firebase_chat/view/home/home_view.dart';
 import 'package:firebase_chat/view/views.dart';
+import 'package:firebase_chat/viewmodel/src/chatlist_viewmodel.dart';
 import 'package:firebase_chat/viewmodel/view_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +32,16 @@ final GoRouter router = GoRouter(routes: [
       path: HomeView.routeName,
       builder: (context, state) => const HomeView(),
       routes: [
+        GoRoute(
+          name: ChatListView.goName,
+          path: ChatListView.routeName,
+          builder: (context, state) => ChangeNotifierProvider(
+            create: (context) => ChatListViewModel(
+                sharedPreferencesService: locator<SharedPreferencesService>(),
+                firestoreService: locator<FirestoreService>()),
+            child: const ChatListView(),
+          ),
+        ),
         GoRoute(
           name: ChatroomView.goName,
           path: ChatroomView.routeName,

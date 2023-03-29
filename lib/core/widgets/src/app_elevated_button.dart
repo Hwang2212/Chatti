@@ -143,7 +143,7 @@ class _AppElevatedButtonWithTextChild extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text,
         textAlign: textAlign,
-        style: getBoldStyle(fontSize: 14, color: textColor!));
+        style: getBoldStyle(fontSize: 16, color: textColor!));
   }
 }
 
@@ -177,15 +177,18 @@ class _AppElevatedButtonWithIconChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         icon,
+        // Spacer(),
         const SizedBox(
-          width: 10,
+          width: 5,
         ),
-        Text(text,
-            style: getBoldStyle(
-                fontSize: 13.0, color: textColor ?? AppColors.black))
+        Expanded(
+          child: Text(text,
+              style: getBoldStyle(
+                  fontSize: 13.0, color: textColor ?? AppColors.black)),
+        )
       ],
     );
   }

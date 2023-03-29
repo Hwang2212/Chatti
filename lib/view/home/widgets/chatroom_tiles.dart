@@ -1,3 +1,4 @@
+import 'package:firebase_chat/core/widgets/global_widgets.dart';
 import 'package:flutter/material.dart';
 
 import '../../themes/themes.dart';
@@ -5,11 +6,16 @@ import '../../themes/themes.dart';
 class ChatRoomTileArgs {
   final String username;
   final String? lastMessage;
+  final String? imageUrl;
   final String? timeUpdated;
   final VoidCallback? onTap;
 
   ChatRoomTileArgs(
-      {this.onTap, required this.username, this.lastMessage, this.timeUpdated});
+      {this.onTap,
+      this.imageUrl,
+      required this.username,
+      this.lastMessage,
+      this.timeUpdated});
 }
 
 class ChatRoomTile extends StatelessWidget {
@@ -29,8 +35,14 @@ class ChatRoomTile extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const CircleAvatar(
-                child: Icon(Icons.people),
+              CircleAvatar(
+                child: chatRoomTileArgs.imageUrl == null
+                    ? const Icon(Icons.people)
+                    : ClipOval(
+                        child: AppImageWidget(
+                            isProfile: true,
+                            imageUrl: chatRoomTileArgs.imageUrl),
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: AppPadding.p40),

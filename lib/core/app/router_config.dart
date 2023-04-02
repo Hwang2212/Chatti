@@ -51,6 +51,7 @@ final GoRouter router = GoRouter(routes: [
                 firestoreService: locator<FirestoreService>()),
             child: ChatroomView(
               chatroomId: state.queryParams['chatroomId'],
+              messageTo: state.queryParams['messageTo'],
             ),
           ),
         ),

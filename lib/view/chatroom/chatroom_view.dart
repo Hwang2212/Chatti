@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_chat/generated/locale_keys.g.dart';
+import 'package:firebase_chat/locator.dart';
 import 'package:firebase_chat/main.dart';
 import 'package:firebase_chat/services/shared_preferences_service.dart';
 import 'package:firebase_chat/view/base_view.dart';
@@ -20,8 +21,9 @@ class ChatroomView extends StatefulWidget {
   static const goName = 'chatroom-view';
   static const routeName = 'chatroom-view';
   final String? chatroomId;
+  final String? messageTo;
 
-  const ChatroomView({super.key, this.chatroomId});
+  const ChatroomView({super.key, this.chatroomId, this.messageTo});
 
   @override
   State<ChatroomView> createState() => _ChatroomViewState();
@@ -64,7 +66,7 @@ class _ChatroomViewState extends State<ChatroomView> {
 
   AppBar mainAppBar() {
     return AppBar(
-      title: const Text("Chatti!"),
+      title: Text(widget.messageTo ?? ""),
       leading: const AppBackButton(),
     );
   }
@@ -104,8 +106,8 @@ class _ChatroomViewState extends State<ChatroomView> {
                         //   name = data['users'].first;
                         // }
                         // log(data.toString());
-                        
-                        return Center(child: Text(data['from_user']));
+
+                        return MessageTile(messageData: data);
                       })),
                 )
               : Container();
@@ -114,12 +116,43 @@ class _ChatroomViewState extends State<ChatroomView> {
 }
 
 class MessageTile extends StatelessWidget {
-  final String message;
-  final bool senderIsMe;
-  const MessageTile({super.key, required this.message, required this.senderIsMe});
+  final Map<String, dynamic> messageData;
+  // final bool senderIsMe;
+  const MessageTile({super.key, required this.messageData});
 
   @override
   Widget build(BuildContext context) {
-    return Placeholder();
+    bool senderIsMe = false;
+    return Row(
+      children: [
+        // CircleAvatar(
+        //   child: chatRoomTileArgs.imageUrl == null
+        //       ? const Icon(Icons.people)
+        //       : ClipOval(
+        //           child: AppImageWidget(
+        //               isProfile: true, imageUrl: chatRoomTileArgs.imageUrl),
+        //         ),
+        // ),
+        Container(
+          padding: EdgeInsets.only(
+              bottom: 8, left: senderIsMe ? 0 : 24, right: senderIsMe ? 24 : 0),
+          alignment: senderIsMe ? Alignment.centerRight : Alignment.centerLeft,
+          child: Card(
+            color: senderIsMe ? AppColors.white : AppColors.aquaBlue,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppSize.s20)),
+            child: Container(
+                margin: senderIsMe
+                    ? const EdgeInsets.only(left: 20)
+                    : const EdgeInsets.only(right: 20),
+                padding: const EdgeInsets.all(AppPadding.p10),
+                child: Text(
+                  messageData['message'],
+                  textAlign: senderIsMe ? TextAlign.end : TextAlign.start,
+                )),
+          ),
+        ),
+      ],
+    );
   }
 }

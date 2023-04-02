@@ -27,8 +27,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final TextEditingController _passwordTEC = TextEditingController();
-  final TextEditingController _emailTEC = TextEditingController();
   @override
   void initState() {
     context.read<HomeViewModel>().getChatroomList();
@@ -99,7 +97,8 @@ class _HomeViewState extends State<HomeView> {
                               onTap: () {
                                 context.goNamed(ChatroomView.goName,
                                     queryParams: {
-                                      'chatroomId': data['chatroom_id']
+                                      'chatroomId': data['chatroom_id'],
+                                      'messageTo': name
                                     });
                               },
                               lastMessage: data['last_message'],

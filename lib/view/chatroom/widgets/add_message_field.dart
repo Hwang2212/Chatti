@@ -15,16 +15,21 @@ class _AddMessageFieldState extends State<AddMessageField> {
   TextEditingController get addMessageTEC => widget.addMessageTEC;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: AppTextFormField(
-            textEditingController: addMessageTEC,
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: AppTextFormField(
+              textEditingController: addMessageTEC,
+            ),
           ),
-        ),
-        AppIconButton(
-            icon: const Icon(Icons.send), onPressed: widget.onTapButton)
-      ],
+          AppIconButton(
+              icon: const Icon(Icons.more_horiz_rounded), onPressed: () {}),
+          AppIconButton(
+              icon: const Icon(Icons.send), onPressed: widget.onTapButton)
+        ],
+      ),
     );
   }
 }

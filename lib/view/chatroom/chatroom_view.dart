@@ -98,17 +98,28 @@ class _ChatroomViewState extends State<ChatroomView> {
                         Map<String, dynamic> data = snapshot.data!.docs[index]
                             .data() as Map<String, dynamic>;
 
-                        String name;
                         // if (data['users'].first == viewModel.username) {
                         //   name = data['users'].last;
                         // } else {
                         //   name = data['users'].first;
                         // }
                         // log(data.toString());
+                        
                         return Center(child: Text(data['from_user']));
                       })),
                 )
               : Container();
         });
+  }
+}
+
+class MessageTile extends StatelessWidget {
+  final String message;
+  final bool senderIsMe;
+  const MessageTile({super.key, required this.message, required this.senderIsMe});
+
+  @override
+  Widget build(BuildContext context) {
+    return Placeholder();
   }
 }

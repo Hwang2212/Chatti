@@ -2,7 +2,7 @@
 
 # firebase_chat
 
-A new Flutter project.
+Firebase Chat App Built with MVVM, GoRouter, Firebase, and Firestore
 
 
 ## Getting Started

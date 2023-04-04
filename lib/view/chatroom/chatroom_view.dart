@@ -47,16 +47,20 @@ class _ChatroomViewState extends State<ChatroomView> {
           appBar: mainAppBar(),
           body: Stack(children: [
             const BackgroundWidget(),
-            Positioned.fill(
-                top: AppPadding.p20, child: buildMainContent(viewModel)),
+            buildMainContent(viewModel),
           ]),
           bottomNavigationBar: AddMessageField(
             addMessageTEC: _messageTEC,
-            onTapButton: () {
+            onTapButton: () async {
+              String? fromUser =
+                  locator<SharedPreferencesService>().getUserUid();
+              String toUser = widget.chatroomId!
+                  .split("_")
+                  .firstWhere((element) => element != fromUser)
+                  .toString();
+              log(toUser.toString());
               viewModel.addMessage(
-                  message: _messageTEC.text,
-                  sendBy: "Andy Hwang",
-                  sendTo: "Lala");
+                  message: _messageTEC.text, sendBy: fromUser!, sendTo: toUser);
             },
           ),
         );
@@ -72,16 +76,7 @@ class _ChatroomViewState extends State<ChatroomView> {
   }
 
   Widget buildMainContent(ChatroomViewModel viewModel) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        buildChatList(viewModel)
-        // const SizedBox(
-        //   height: AppSize.s20,
-        // ),
-      ],
-    );
+    return SingleChildScrollView(child: buildChatList(viewModel));
   }
 
   Widget buildChatList(ChatroomViewModel viewModel) {
@@ -91,7 +86,7 @@ class _ChatroomViewState extends State<ChatroomView> {
           return snapshot.hasData
               ? SizedBox(
                   width: double.infinity,
-                  // height: ScreenUtils.idealScreenHeight,
+                  height: ScreenUtils.idealScreenHeight,
                   child: ListView.builder(
                       shrinkWrap: true,
                       padding: AppPadding.contentPadding,
@@ -122,37 +117,31 @@ class MessageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool senderIsMe = false;
-    return Row(
-      children: [
-        // CircleAvatar(
-        //   child: chatRoomTileArgs.imageUrl == null
-        //       ? const Icon(Icons.people)
-        //       : ClipOval(
-        //           child: AppImageWidget(
-        //               isProfile: true, imageUrl: chatRoomTileArgs.imageUrl),
-        //         ),
-        // ),
-        Container(
-          padding: EdgeInsets.only(
-              bottom: 8, left: senderIsMe ? 0 : 24, right: senderIsMe ? 24 : 0),
-          alignment: senderIsMe ? Alignment.centerRight : Alignment.centerLeft,
-          child: Card(
-            color: senderIsMe ? AppColors.white : AppColors.aquaBlue,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppSize.s20)),
-            child: Container(
-                margin: senderIsMe
-                    ? const EdgeInsets.only(left: 20)
-                    : const EdgeInsets.only(right: 20),
-                padding: const EdgeInsets.all(AppPadding.p10),
-                child: Text(
-                  messageData['message'],
-                  textAlign: senderIsMe ? TextAlign.end : TextAlign.start,
-                )),
-          ),
-        ),
-      ],
+    bool senderIsMe;
+    if (messageData['from_user'] ==
+        locator<SharedPreferencesService>().getUserUid()) {
+      senderIsMe = true;
+    } else {
+      senderIsMe = false;
+    }
+    return Container(
+      padding: EdgeInsets.only(
+          bottom: 8, left: senderIsMe ? 0 : 24, right: senderIsMe ? 24 : 0),
+      alignment: senderIsMe ? Alignment.centerRight : Alignment.centerLeft,
+      child: Card(
+        color: senderIsMe ? AppColors.white : AppColors.aquaBlue,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSize.s20)),
+        child: Container(
+            margin: senderIsMe
+                ? const EdgeInsets.only(left: 20)
+                : const EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.all(AppPadding.p10),
+            child: Text(
+              messageData['message'],
+              textAlign: senderIsMe ? TextAlign.end : TextAlign.start,
+            )),
+      ),
     );
   }
 }

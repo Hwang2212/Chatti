@@ -1,7 +1,6 @@
 import 'package:firebase_chat/services/firebase/firestore.dart';
 import 'package:firebase_chat/services/services.dart';
 
-import 'package:firebase_chat/viewmodel/view_model.dart';
 import 'package:get_it/get_it.dart';
 
 GetIt locator = GetIt.instance;
